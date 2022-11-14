@@ -144,19 +144,22 @@ def predict():
     #define point coordinate columns
     koordinat_dil = dil_valid[["KOORDINAT_X", "KOORDINAT_Y"]]
     koordinat_gd = data_gd[["LATITUDE", "LONGITUDE"]]
-    
+    put_markdown('define point coordinate columns').style('text-align:center'), ###### BARIS CEK OKE ######
     # build kdtree DIL
     kdtree_gd = spatial.cKDTree(koordinat_gd)
+    put_markdown('build kdtree DIL').style('text-align:center'), ###### BARIS CEK OKE ######
 
     # query tree DIL to GD coordinates. NOTICE the k=1 nearest neigborgh
     distances, indexes = kdtree_gd.query(koordinat_dil, k=1)
     distances=distances*110950 #convert degree to meters
+    put_markdown('query tree DIL to GD coordinates').style('text-align:center'), ###### BARIS CEK OKE ######
 
     # assign it to a new dataframe
     new_dil_valid = dil_valid.assign(Closest_gd=data_gd["NOMOR GARDU"][indexes].array)
     new_dil_valid = new_dil_valid.assign(Latitude_gd=data_gd["LATITUDE"][indexes].array)
     new_dil_valid = new_dil_valid.assign(Longitude_gd=data_gd["LONGITUDE"][indexes].array)
     new_dil_valid = new_dil_valid.assign(Closest_gd_Dist=distances)
+    put_markdown('assign it to a new dataframe').style('text-align:center'), ###### BARIS CEK OKE ######
 
     #====================== ML Process NLP =========================
     #Load dataset
