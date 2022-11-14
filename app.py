@@ -294,8 +294,8 @@ def predict():
 #if __name__ == '__main__':
 #    start_server(app, port=80)
 
-app.add_url_rule('/tool', 'webio_view', webio_view(predict),
-            methods=['GET', 'POST', 'OPTIONS'])
+app.add_url_rule('/', 'webio_view', webio_view(predict),
+		 methods=['GET', 'POST', 'OPTIONS'])
 
 
 if __name__ == '__main__':
