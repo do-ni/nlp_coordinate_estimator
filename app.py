@@ -162,10 +162,8 @@ def predict():
     #Load dataset
     training_dataset=new_dil_valid[new_dil_valid.Closest_gd_Dist < param_nlp['jarak_valid']].reset_index() #Jarak < parameter misal 1000m valid
     test_dataset=new_dil_valid[new_dil_valid.Closest_gd_Dist >= param_nlp['jarak_valid']].reset_index() #Jarak >= parameter misal 1000m invalid
-    put_markdown('Load dataset').style('text-align:center'), ###### BARIS CEK OKE ######
 
     dataset=training_dataset[['Closest_gd','NAMAPNJ']]
-    put_markdown('Load dataset1').style('text-align:center'), ###### BARIS CEK OKE ######
     data = []
     for i in range(dataset.shape[0]):
         alamat = dataset.iloc[i, 1]
@@ -198,7 +196,7 @@ def predict():
                 
         alamat_text = " ".join(alamat_processed)
         data.append(alamat_text)
-    put_markdown('alamat_processed').style('text-align:center'), ###### BARIS CEK OKE ######
+   
     # creating the feature matrix
     from sklearn.feature_extraction.text import TfidfVectorizer
     matrix = TfidfVectorizer(analyzer='word',
@@ -208,11 +206,10 @@ def predict():
                             )
     X = matrix.fit_transform(data)
     y = dataset.iloc[:, 0]
-    put_markdown('matrix').style('text-align:center'), ###### BARIS CEK OKE ######
+    
     # Save the vectorizer
     joblib_file_vectorizer = "joblib_file_vectorizer.pkl"  
     joblib.dump(matrix, joblib_file_vectorizer)
-    put_markdown('joblib dump').style('text-align:center'), ###### BARIS CEK OKE ######
 
     #put_text("=======================================================")
     put_text("============ CLASSIFY KODE GARDU BY ALAMAT ============").style('text-align:center'),
