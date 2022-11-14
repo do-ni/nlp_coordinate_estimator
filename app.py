@@ -11,6 +11,7 @@ from pywebio.platform.flask import webio_view
 from pywebio import STATIC_PATH
 from flask import Flask, send_from_directory
 from pywebio import start_server
+import argparse
 
 
 import re
@@ -294,7 +295,7 @@ def predict():
 #if __name__ == '__main__':
 #    start_server(app, port=80)
 
-app.add_url_rule('/', 'webio_view', webio_view(predict),
+app.add_url_rule('/tool', 'webio_view', webio_view(predict),
 		 methods=['GET', 'POST', 'OPTIONS'])
 
 
