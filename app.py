@@ -7,6 +7,12 @@ import plotly.graph_objects as go
 import math
 import random
 
+from pywebio.platform.flask import webio_view
+from pywebio import STATIC_PATH
+from flask import Flask, send_from_directory
+from pywebio import start_server
+
+
 import re
 import numpy as np
 from nltk.tokenize import word_tokenize as wt 
@@ -17,6 +23,8 @@ from scipy import spatial
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
+
+app = Flask(__name__)
 
 def proses_dil(dil):
     dil[['KOORDINAT_X','KOORDINAT_Y']]=dil[['KOORDINAT_X','KOORDINAT_Y']].fillna(0)
@@ -74,7 +82,7 @@ def sebar(radius_sebaran):
 	n=(math.sqrt(random.random())*math.cos(math.radians(random.randint(0, 360)))*radius_sebaran/111319)
 	return n
 
-def app():
+def predict():
     put_markdown("# Perbaikan Data Koordinat Pelanggan").style('text-align:center'),
     put_markdown("## menggunakan Machine Learning").style('text-align:center; color:SteelBlue'),
     file=input_group(
@@ -283,5 +291,16 @@ def app():
     #put_file(str(file['dil']['filename'])[:-4]+'_perbaikan_download.csv', hasil_df.reset_index(drop=True), 'download')
 
 
+#if __name__ == '__main__':
+#    start_server(app, port=80)
+
+app.add_url_rule('/tool', 'webio_view', webio_view(predict),
+            methods=['GET', 'POST', 'OPTIONS'])
+
+
 if __name__ == '__main__':
-    start_server(app, port=80)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--port", type=int, default=8080)
+    args = parser.parse_args()
+
+    start_server(predict, port=args.port)
