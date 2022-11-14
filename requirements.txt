@@ -2,7 +2,6 @@ pywebio
 sklearn
 plotly
 pandas
-re
 numpy
 nltk
 joblib
