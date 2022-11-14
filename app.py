@@ -12,7 +12,7 @@ from pywebio import STATIC_PATH
 from flask import Flask, send_from_directory
 from pywebio import start_server
 import argparse
-
+from io import BytesIO
 
 import re
 import numpy as np
@@ -260,7 +260,7 @@ def predict():
     hasil_df = pd.concat([training_dataset,test_dataset], ignore_index=True)
 
     #out to csv
-    hasil_df.to_csv(str(file['dil']['filename'])[:-4]+'_perbaikan.csv', index=False)
+    #hasil_df.to_csv(str(file['dil']['filename'])[:-4]+'_perbaikan.csv', index=False)
     #hasil_df.to_csv("dil_bombana_testOK_pred.csv", index=False)
 
     put_text("=============== Done ==============").style('text-align:center'),
@@ -288,9 +288,10 @@ def predict():
     put_html(html)
     
     #Download Button
-    #put_text("Data perbaikan koordinat dapat di download di sini :").style('text-align:center'),
-    #put_file(str(file['dil']['filename'])[:-4]+'_perbaikan_download.csv', hasil_df.reset_index(drop=True), 'download')
-
+    hasil_excel = BytesIO()
+    hasil_df.drop('index',axis=1).reset_index(drop=True).to_csv(hasil_excel, index=False)
+    put_text("Data perbaikan koordinat dapat di download di sini :").style('text-align:center'),
+    put_file(str(str(file['dil']['filename'])[:-4]+'_perbaikan_download.csv'), hasil_excel.getvalue(), 'download').style('text-align:center'),
 
 #if __name__ == '__main__':
 #    start_server(app, port=80)
