@@ -1,8 +1,6 @@
 pywebio
 sklearn
 plotly
-math
-random
 pandas
 re
 numpy
