@@ -302,7 +302,7 @@ app.add_url_rule('/tool', 'webio_view', webio_view(predict),
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", type=int, default=8080)
+    parser.add_argument("-p", "--port", type=int, default=8888)
     args = parser.parse_args()
 
     start_server(predict, port=args.port)
